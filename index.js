@@ -8,6 +8,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 const userDB = mongoose.createConnection('mongodb://interntest:easyas123@interncluster-shard-00-00-zmzoh.mongodb.net:27017,interncluster-shard-00-01-zmzoh.mongodb.net:27017,interncluster-shard-00-02-zmzoh.mongodb.net:27017/test?ssl=true&replicaSet=InternCluster-shard-0&authSource=admin&retryWrites=true', {useNewUrlParser : true});
 userDB.once('open', function(){console.log('Connected to MongoDB Atlas.');});
 userDB.on('error', function(err){console.log('Database ERROR: ' + err);});
+//Delete user with name
 app.post('/delete-user',function(req,res){
   books.deleteOne({name:req.body.name},(err, data) => {
     if(err){
@@ -17,6 +18,7 @@ app.post('/delete-user',function(req,res){
     });
     res.send("Deleted")
 })
+//Create user with book details
 app.post('/create-user',function(req,res){
   let newUser = new books(req.body);
 newUser.save()
@@ -30,6 +32,7 @@ newUser.save()
     });
 res.json(newUser)
 })
+
 app.listen(3000,function(){
   console.log("Server is listening at port 3000");
 })
